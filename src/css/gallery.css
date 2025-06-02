@@ -12,6 +12,7 @@
   box-sizing: border-box;
   flex-basis: calc((100% - 24px * 2) / 3);
   border: 1px solid #8b8b8e;
+  height: auto;
 }
 
 .gallery-link {

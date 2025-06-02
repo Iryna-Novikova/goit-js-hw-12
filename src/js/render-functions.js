@@ -4,6 +4,7 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 const galleryListElem = document.querySelector('.gallery');
 const loaderElm = document.querySelector('.loader');
+const loadBtnElm = document.querySelector('.load-more-btn');
 
 //екземпляр SimpleLightbox для роботи з модальним вікном
 const Lightbox = new SimpleLightbox('.gallery a', { 
@@ -45,7 +46,7 @@ function getListElemMrkup(image) {
 
 export function createGallery(images) { 
     const listImagesMrkup = images.map(getListElemMrkup).join('\n');
-    galleryListElem.insertAdjacentHTML("afterbegin", listImagesMrkup);
+    galleryListElem.insertAdjacentHTML('beforeend', listImagesMrkup);
     Lightbox.refresh();
 }
 
@@ -59,4 +60,12 @@ export function showLoader() {
 
 export function hideLoader() { 
     loaderElm.classList.add('hidden');
+}
+
+export function showLoadMoreButton() { 
+  loadBtnElm.classList.remove('hidden');
+}
+
+export function hideLoadMoreButton() { 
+  loadBtnElm.classList.add('hidden');
 }

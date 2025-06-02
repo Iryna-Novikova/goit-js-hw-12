@@ -11,7 +11,8 @@
   border-radius: 4px;
 }
 
-.search-btn {
+.search-btn,
+.load-more-btn {
   width: 90px;
   height: 40px;
   color: #fff;
@@ -20,11 +21,18 @@
   background-color: #4e75ff;
 }
 
-.search-btn:focus {
+.load-more-btn {
+  width: auto;
+  margin: 32px auto;
+}
+
+.search-btn:focus,
+.load-more-btn:focus {
   border: 1px solid #4e75ff;
   outline: none;
 }
 
-.search-btn:hover {
+.search-btn:hover,
+.load-more-btn:hover {
   background-color: #6c8cff;
 }

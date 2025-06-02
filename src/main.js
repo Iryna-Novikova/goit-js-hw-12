@@ -4,56 +4,105 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
 // // імпортуємо власні функції
-import { getImagesByQuery } from './js/pixabay-api';
-import { createGallery, clearGallery, showLoader, hideLoader } from './js/render-functions.js';
+import { getImagesByQuery, perPage } from './js/pixabay-api';
+import {
+    createGallery, clearGallery, showLoader, hideLoader,
+    showLoadMoreButton, hideLoadMoreButton
+} from './js/render-functions.js';
 
-const formEl = document.querySelector('.form');
+const formElm = document.querySelector('.form');
+const loadBtnElm = document.querySelector('.load-more-btn');
 
-formEl.addEventListener('submit', handlerFormSbmt); 
+let page = 0;
+let maxPage = 0;
+let query = '';
+let message;
 
-function handlerFormSbmt(evt) { 
+formElm.addEventListener('submit', handlerFormSbmt); 
+
+// опрацювання сабміту форми
+async function handlerFormSbmt(evt) { 
     evt.preventDefault();
     clearGallery();
+    hideLoadMoreButton();
 
-    const textForSearch = formEl.elements['search-text'].value.trim();
-    
-    if (textForSearch !== '') {
+    query = formElm.elements['search-text'].value.trim();
+
+    if (query !== '') {
         showLoader();
-        getImagesByQuery(textForSearch)
-            .then(res => {
-                if (res.hits.length === 0) {
-                    iziToast.show({
-                        title: '',
-                        message: '❌ Sorry, there are no images matching your search query. Please try again!',
-                        backgroundColor: 'rgb(136, 44, 44)',
-                        messageColor: 'rgb(255, 255, 255)',
-                        position: 'topRight',
-                    });
-                } else {
-                    createGallery(res.hits);
-                    formEl.reset();
-                }
-            })
-            .catch(err => {
-                iziToast.show({
-                    title: '',
-                    message: `❌ Sorry, it's some error hear: ${err}`,
-                    backgroundColor: 'rgb(136, 44, 44)',
-                    messageColor: 'rgb(255, 255, 255)',
-                    position: 'topRight',
-                });
-            })
-            .finally(() => 
-                hideLoader()
-            );
-        
-    } else { 
-        iziToast.show({
-            title: '',
-            message: '❌ Please enter non empty request.',
-            backgroundColor: 'rgb(136, 44, 44)',
-            messageColor: 'rgb(255, 255, 255)',
-            position: 'topRight',
-        });
+        page = 1;
+        try {
+            const res = await getImagesByQuery(query, page);
+
+            if (res.hits.length === 0) {
+                message = '❌ Sorry, there are no images matching your search query. Please try again!';
+                showAlert('topRight');           
+            } else {              
+                createGallery(res.hits);
+                formElm.reset();
+            };
+
+            maxPage = Math.ceil(res.totalHits / perPage);
+            if (page < maxPage) {
+                showLoadMoreButton();
+                loadBtnElm.addEventListener('click', handlerLoadBtnOnClick);
+            };               
+        }
+        catch {
+            err => {
+                message = `❌ Sorry, it's some error hear: ${err}`;
+                showAlert('topRight');
+            };
+        };
+                   
+        hideLoader();
     }
+    else { 
+        message = '❌ Please enter non empty request.';
+        showAlert('topRight');    
+    };
 }
+
+async function handlerLoadBtnOnClick(evt) {
+    page += 1; 
+    showLoader();   
+    try { 
+        const res = await getImagesByQuery(query, page);
+        createGallery(res.hits);
+    }
+    catch {
+        err => {
+            message = `❌ Sorry, it's some error hear: ${err}`;
+            showAlert('topRight');
+        };
+    };
+
+    hideLoader();
+
+    if (page === maxPage) {
+        hideLoadMoreButton();
+        loadBtnElm.removeEventListener('click', handlerLoadBtnOnClick);
+        message = "We're sorry, but you've reached the end of search results.";
+        setTimeout(showAlert('bottomCenter'), 1000);
+    };
+}
+
+// функція відображення повідомлення
+function showAlert(pos) {
+    iziToast.show({
+        title: '',
+        message: message,
+        backgroundColor: 'rgb(136, 44, 44)',
+        messageColor: 'rgb(255, 255, 255)',
+        position: pos,
+    });
+ }
+
+// скролінг
+function scroll() {
+    const galleryItemElm = document.querySelector('.gallery-item');
+    const height = galleryItemElm.getBoundingClientRect().height;
+    console.log(`height: ${height}`);
+}
+
+ 
