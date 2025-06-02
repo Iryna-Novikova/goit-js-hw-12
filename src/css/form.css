@@ -1,0 +1,30 @@
+.form {
+  padding: 36px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.form-inpt {
+  block-size: border-box;
+  width: 272px;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+.search-btn {
+  width: 90px;
+  height: 40px;
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 16px;
+  background-color: #4e75ff;
+}
+
+.search-btn:focus {
+  border: 1px solid #4e75ff;
+  outline: none;
+}
+
+.search-btn:hover {
+  background-color: #6c8cff;
+}
