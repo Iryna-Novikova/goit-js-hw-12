@@ -47,7 +47,6 @@ async function handlerFormSbmt(evt) {
             maxPage = Math.ceil(res.totalHits / perPage);
             if (page < maxPage) {
                 showLoadMoreButton();
-                loadBtnElm.addEventListener('click', handlerLoadBtnOnClick);
             };               
         }
         catch (err) {
@@ -65,6 +64,8 @@ async function handlerFormSbmt(evt) {
 }
 
 // дозавантаження картинок
+loadBtnElm.addEventListener('click', handlerLoadBtnOnClick);
+
 async function handlerLoadBtnOnClick(evt) {
     page += 1; 
     showLoader();   
