@@ -39,6 +39,7 @@ async function handlerFormSbmt(evt) {
                 showAlert('topRight');           
             } else {              
                 createGallery(res.hits);
+                scrollImages();
                 formElm.reset();
             };
 
@@ -63,12 +64,14 @@ async function handlerFormSbmt(evt) {
     };
 }
 
+// дозавантаження картинок
 async function handlerLoadBtnOnClick(evt) {
     page += 1; 
     showLoader();   
     try { 
         const res = await getImagesByQuery(query, page);
         createGallery(res.hits);
+        scrollImages();
     }
     catch {
         err => {
@@ -99,10 +102,17 @@ function showAlert(pos) {
  }
 
 // скролінг
-function scroll() {
+function scrollImages() {
     const galleryItemElm = document.querySelector('.gallery-item');
+    
+    if (!galleryItemElm) return;
+
     const height = galleryItemElm.getBoundingClientRect().height;
-    console.log(`height: ${height}`);
+
+    window.scrollBy({
+        top: height * 2,
+        behavior: "smooth",
+      });
 }
 
  
