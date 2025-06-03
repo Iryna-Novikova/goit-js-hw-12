@@ -40,8 +40,9 @@ async function handlerFormSbmt(evt) {
             } else {              
                 createGallery(res.hits);
                 scrollImages();
-                formElm.reset();
             };
+
+            formElm.reset();
 
             maxPage = Math.ceil(res.totalHits / perPage);
             if (page < maxPage) {
@@ -60,7 +61,8 @@ async function handlerFormSbmt(evt) {
     }
     else { 
         message = '❌ Please enter non empty request.';
-        showAlert('topRight');    
+        showAlert('topRight'); 
+        formElm.reset();
     };
 }
 
