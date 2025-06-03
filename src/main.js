@@ -50,11 +50,9 @@ async function handlerFormSbmt(evt) {
                 loadBtnElm.addEventListener('click', handlerLoadBtnOnClick);
             };               
         }
-        catch {
-            err => {
+        catch (err) {
                 message = `❌ Sorry, it's some error hear: ${err}`;
                 showAlert('topRight');
-            };
         };
                    
         hideLoader();
@@ -75,11 +73,9 @@ async function handlerLoadBtnOnClick(evt) {
         createGallery(res.hits);
         scrollImages();
     }
-    catch {
-        err => {
+    catch (err) {
             message = `❌ Sorry, it's some error hear: ${err}`;
             showAlert('topRight');
-        };
     };
 
     hideLoader();
@@ -88,7 +84,7 @@ async function handlerLoadBtnOnClick(evt) {
         hideLoadMoreButton();
         loadBtnElm.removeEventListener('click', handlerLoadBtnOnClick);
         message = "We're sorry, but you've reached the end of search results.";
-        setTimeout(showAlert('bottomCenter'), 1000);
+        setTimeout(showAlert, 1000,'bottomCenter');
     };
 }
 

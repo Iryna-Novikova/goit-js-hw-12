@@ -16,10 +16,10 @@ const Lightbox = new SimpleLightbox('.gallery a', {
 // створення елементу розмітки для однієї картинки
 function getListElemMrkup(image) {
     return `<li class="gallery-item">
-    <a class="gallery-link" href="${image.webformatURL}">
+    <a class="gallery-link" href="${image.largeImageURL}">
       <img
         class="gallery-image"
-        src="${image.largeImageURL}"
+        src="${image.webformatURL}"
         alt="${image.tags}"
       /> 
     <div class="img-info">
