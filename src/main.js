@@ -83,7 +83,6 @@ async function handlerLoadBtnOnClick(evt) {
 
     if (page === maxPage) {
         hideLoadMoreButton();
-        loadBtnElm.removeEventListener('click', handlerLoadBtnOnClick);
         message = "We're sorry, but you've reached the end of search results.";
         setTimeout(showAlert, 1000,'bottomCenter');
     };
