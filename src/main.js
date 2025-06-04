@@ -13,8 +13,8 @@ import {
 const formElm = document.querySelector('.form');
 const loadBtnElm = document.querySelector('.load-more-btn');
 
-let page = 1;
-let maxPage = 1;
+let page;
+let maxPage;
 let query = '';
 let message;
 
